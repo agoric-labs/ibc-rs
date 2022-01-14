@@ -250,6 +250,10 @@ define_error! {
             [ Ics07Error ]
             | _ | { format_args!("Tendermint-specific handler error") },
 
+        MissingLocalConsensusState
+            { height: Height }
+            | e | { format_args!("the local consensus state could not be retrieved for height {}", e.height) },
+
     }
 }
 

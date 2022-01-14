@@ -10,6 +10,7 @@ use crate::core::ics02_client::error::Error;
 use crate::core::ics02_client::events::Attributes;
 use crate::core::ics02_client::handler::ClientResult;
 use crate::core::ics02_client::header::Header;
+use crate::core::ics02_client::height::Height;
 use crate::core::ics02_client::msgs::update_client::MsgUpdateAnyClient;
 use crate::core::ics24_host::identifier::ClientId;
 use crate::events::IbcEvent;
@@ -24,6 +25,8 @@ pub struct Result {
     pub client_id: ClientId,
     pub client_state: AnyClientState,
     pub consensus_state: AnyConsensusState,
+    pub processed_time: Timestamp,
+    pub processed_height: Height,
 }
 
 pub fn process(
@@ -86,6 +89,8 @@ pub fn process(
         client_id: client_id.clone(),
         client_state: new_client_state,
         consensus_state: new_consensus_state,
+        processed_time: ctx.host_timestamp(),
+        processed_height: ctx.host_height(),
     });
 
     let event_attributes = Attributes {
